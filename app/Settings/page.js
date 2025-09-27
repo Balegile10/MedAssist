@@ -1,38 +1,15 @@
 import React, { useState } from "react";
 import { useSettings } from "../../components/SettingsContext";
 import translations from "../../components/translations";
-
-// Dummy dropdown menu for demonstration. Mpho, please replace with actual dropdown in your app.
-function DropdownMenu({ onSettingsClick }) {
-  const { language } = useSettings();
-  const t = translations[language];
-  return (
-    <div className="relative inline-block text-left">
-      <button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700">
-        {t.menu}
-      </button>
-      <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-        <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-          {/* Other menu items */}
-          <button
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-            role="menuitem"
-            onClick={onSettingsClick}
-          >
-            {t.settings}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+import Navbar from "../../components/navbar";
 
 function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
-  const { language } = useSettings();
+  const { language, darkMode, toggleDarkMode } = useSettings();
   const t = translations[language];
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="bg-white rounded-[2rem] w-full max-w-3xl shadow-md p-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-200">
+      <Navbar />
+      <div className="bg-white rounded-[2rem] w-full max-w-3xl shadow-md p-8 mt-8">
         {/* Header */}
         <div className="flex items-center bg-blue-600 rounded-t-[2rem] px-8 py-4 mb-8 relative">
           <button
@@ -75,8 +52,8 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
             </div>
             <div className="flex items-center justify-between">
               <span className="font-semibold">{t.darkMode}</span>
-              <button className="border px-4 py-1 rounded hover:bg-gray-100">
-                {t.toggle}
+              <button className="border px-4 py-1 rounded hover:bg-gray-100" onClick={toggleDarkMode}>
+                {darkMode ? t.on : t.off}
               </button>
             </div>
           </div>
@@ -201,12 +178,10 @@ function NotificationsScreen({ onGoBack }) {
 }
 
 export default function App() {
-  const [view, setView] = useState("home"); // views: home, settings, language, notifications
+  const [view, setView] = useState("settings"); // default to settings for this page
 
   return (
     <div>
-      {/* Dropdown always visible for demo */}
-      <DropdownMenu onSettingsClick={() => setView("settings")} />
       {view === "settings" && (
         <Settings
           onGoBack={() => setView("home")}
@@ -220,7 +195,6 @@ export default function App() {
       {view === "notifications" && (
         <NotificationsScreen onGoBack={() => setView("settings")} />
       )}
-      {/* Add your other views (e.g., Home) as needed */}
     </div>
   );
 }

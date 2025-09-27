@@ -2,13 +2,16 @@
 import React from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
+import { useSettings } from "@/components/SettingsContext";
+import translations from "@/components/translations";
 
 
-export default function HomePage() {
+  const { language, darkMode } = useSettings();
+  const t = translations[language];
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-100'}`}> 
       {/* Top Navbar */}
-      <header className="bg-blue-600 text-white py-4 px-8 flex items-center justify-between">
+  <header className={`bg-blue-600 ${darkMode ? 'text-white' : 'text-white'} py-4 px-8 flex items-center justify-between`}>
         {/* Left side  */}
         <div className="flex-1"></div>
 
@@ -28,9 +31,9 @@ export default function HomePage() {
 
       {/* Main Content */}
       <main className="flex flex-col items-center justify-center py-20">
-        <h2 className="text-3xl font-bold mb-2">Welcome to MedAssist</h2>
+        <h2 className="text-3xl font-bold mb-2">{language === 'ls' ? 'Rea u amohela ho MedAssist' : 'Welcome to MedAssist'}</h2>
         <p className="text-gray-600 mb-12">
-          Your comprehensive health companion
+          {language === 'ls' ? 'Motsoalle oa hau oa bophelo bo botle' : 'Your comprehensive health companion'}
         </p>
 
         <div className="flex gap-12">
@@ -61,4 +64,4 @@ export default function HomePage() {
       </main>
     </div>
   );
-}
+

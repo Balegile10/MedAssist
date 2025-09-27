@@ -8,13 +8,18 @@ import React, { createContext, useContext, useState } from "react";
 const SettingsContext = createContext({
   language: "en-uk",
   setLanguage: () => {},
+  darkMode: false,
+  toggleDarkMode: () => {},
 });
 
 export function SettingsProvider({ children }) {
   const [language, setLanguage] = useState("en-uk");
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   return (
-    <SettingsContext.Provider value={{ language, setLanguage }}>
+    <SettingsContext.Provider value={{ language, setLanguage, darkMode, toggleDarkMode }}>
       {children}
     </SettingsContext.Provider>
   );
