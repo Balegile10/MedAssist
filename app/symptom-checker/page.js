@@ -63,7 +63,7 @@ export default function SymptomChecker() {
           href="/home"
           className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
         >
-          {t.back || (language === 'ls' ? 'Khutlela' : 'Back')}
+          {t.back || (language === 'ls' ? 'Khutla' : 'Back')}
         </Link>
         <h1 className="flex-1 text-center text-xl font-bold text-white">
           {t.symptomChecker || (language === 'ls' ? 'Mohlahlobi oa Matšoao' : 'Symptom Checker')} 🩺

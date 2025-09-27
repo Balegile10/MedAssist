@@ -24,7 +24,7 @@ export default function LoginPage() {
       <div className="flex flex-col justify-center items-center w-1/2 p-8">
         <form
           onSubmit={handleLogin}
-          className={`bg-white p-8 rounded-lg shadow-md w-full max-w-md ${darkMode ? "dark:bg-gray-800 dark:text-white" : ""}`}
+          className={`p-8 rounded-lg shadow-md w-full max-w-md ${darkMode ? "bg-gray-800 text-white" : "bg-white"}`}
         >
           <h2 className="text-2xl font-bold text-blue-600 mb-6">{language === "ls" ? "Kena" : t.login || "Login"}</h2>
           <input

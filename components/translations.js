@@ -97,7 +97,7 @@ const translations = {
     englishUK: "Senyesemane (UK)",
     englishUS: "Senyesemane (US)",
     sesotho: "Sesotho",
-    back: "Khutlela",
+  back: "Khutla",
   menu: "Lenane",
   logout: "Tsoa",
   welcome: "Rea u amohela ho MedAssist",
@@ -116,15 +116,15 @@ const translations = {
   additionalNotes: "Lintlha tse ling:",
   notesPlaceholder: "Hlalosa matšoao a hau, nako, jj.",
   checkSymptoms: "Hlahloba Matšoao",
-  backToHome: "Khutlela Leqepheng la Lehae",
-  fever: "Fever",
+  backToHome: "Khutla Leqepheng la Lehae",
+  fever: "Mocheso",
   cough: "Khohlela",
-  headache: "Sehloko sa hlooho",
+  headache: "Bohloko ba hlooho",
   fatigue: "Ho khathala",
-  soreThroat: "Monate oa 'metso",
+  soreThroat: "Bohloko ba 'metso",
   nausea: "Ho nyekeloa ke pelo",
   shortnessOfBreath: "Ho hema ka thata",
-  dizziness: "Ho pota hlooho"
+  dizziness: "Molilikoane"
   }
 };
 

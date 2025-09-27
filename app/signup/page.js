@@ -13,7 +13,7 @@ export default function SignupPage() {
     <div className={`min-h-screen flex ${darkMode ? "dark bg-gray-900 text-white" : "bg-gray-100"}`}>
       {/* Left side of Sign Up Form */}
       <div className="flex flex-col justify-center items-center w-1/2 p-8">
-        <form className={`bg-white p-8 rounded-lg shadow-md w-full max-w-md ${darkMode ? "dark:bg-gray-800 dark:text-white" : ""}`}> 
+  <form className={`p-8 rounded-lg shadow-md w-full max-w-md ${darkMode ? "bg-gray-800 text-white" : "bg-white"}`}> 
           <h2 className="text-2xl font-bold text-blue-600 mb-6">{language === "ls" ? "Ngolisa" : t.signup || "Sign Up"}</h2>
           <input
             type="text"
