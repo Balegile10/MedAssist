@@ -18,11 +18,11 @@ export default function HeroSection() {
           />
         </div>
 
-        <h1 className="text-4xl mb-4 font-extrabold text-blue-600">
+        <h1 className="text-4xl mb-4 font-extraboldp text-blue-600">
           Welcome to MedAssist
         </h1>
 
-       {/* Get Started button → goes to signup */}
+       {/* Get Started button goes to signup */}
         <Link href="/signup">
           <button className="px-8 py-3 bg-blue-600 text-white text-lg rounded-lg font-bold hover:bg-blue-700 transition">
             Get Started

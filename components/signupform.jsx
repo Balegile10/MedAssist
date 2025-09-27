@@ -46,7 +46,7 @@ export default function SignupPage() {
           priority
         />
         
-         {/* Already have account → Login */}
+         {/* Already have account go to Login */}
         <p className="mt-6 text-sm text-gray-600">
           Already have an account?{" "}
           <Link href="/login" className="text-blue-600 font-semibold hover:underline">
