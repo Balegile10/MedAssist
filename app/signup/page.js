@@ -1,38 +1,43 @@
-"use client ";
+
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSettings } from "../../components/SettingsContext";
+import translations from "../../components/translations";
 
 export default function SignupPage() {
+  const { language, darkMode } = useSettings();
+  const t = translations[language];
   return (
-    <div className="min-h-screen flex bg-gray-100">
+    <div className={`min-h-screen flex ${darkMode ? "dark bg-gray-900 text-white" : "bg-gray-100"}`}>
       {/* Left side of Sign Up Form */}
       <div className="flex flex-col justify-center items-center w-1/2 p-8">
-        <form className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-          <h2 className="text-2xl font-bold text-blue-600 mb-6">Sign Up</h2>
+        <form className={`bg-white p-8 rounded-lg shadow-md w-full max-w-md ${darkMode ? "dark:bg-gray-800 dark:text-white" : ""}`}> 
+          <h2 className="text-2xl font-bold text-blue-600 mb-6">{language === "ls" ? "Ngolisa" : t.signup || "Sign Up"}</h2>
           <input
             type="text"
-            placeholder="Full Name"
+            placeholder={language === "ls" ? "Lebitso le felletseng" : t.fullName || "Full Name"}
             className="w-full p-3 border rounded mb-4"
           />
           <input
             type="email"
-            placeholder="Email"
+            placeholder={language === "ls" ? "Imeile" : t.email || "Email"}
             className="w-full p-3 border rounded mb-4"
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder={language === "ls" ? "Lentsoe la sephiri" : t.password || "Password"}
             className="w-full p-3 border rounded mb-4"
           />
           <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
-            Sign Up
+            {language === "ls" ? "Ngolisa" : t.signup || "Sign Up"}
           </button>
           <p className="mt-4 text-sm text-center">
-            Already have an account?{" "}
-            <a href="/login" className="text-blue-600">
-              Login
-            </a>
+            {language === "ls" ? "U se u ntse u e-na le ak'haonte?" : t.alreadyAccount || "Already have an account?"} {" "}
+            <Link href="/login" className="text-blue-600">
+              {language === "ls" ? "Kena" : t.login || "Login"}
+            </Link>
           </p>
         </form>
       </div>
@@ -47,7 +52,6 @@ export default function SignupPage() {
           className="object-cover rounded-lg shadow-lg"
           priority
         />
-        
       </div>
     </div>
   );

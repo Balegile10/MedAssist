@@ -1,20 +1,22 @@
+"use client";
 import React, { useState } from "react";
 import { useSettings } from "../../components/SettingsContext";
 import translations from "../../components/translations";
 import Navbar from "../../components/navbar";
 
+
 function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
   const { language, darkMode, toggleDarkMode } = useSettings();
   const t = translations[language];
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-200">
+    <div className={`min-h-screen flex flex-col items-center justify-center ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-200'}`}>
       <Navbar />
-      <div className="bg-white rounded-[2rem] w-full max-w-3xl shadow-md p-8 mt-8">
+      <div className={`rounded-[2rem] w-full max-w-3xl shadow-md p-8 mt-8 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
         {/* Header */}
-        <div className="flex items-center bg-blue-600 rounded-t-[2rem] px-8 py-4 mb-8 relative">
+  <div className={`flex items-center rounded-t-[2rem] px-8 py-4 mb-8 relative ${darkMode ? 'bg-blue-900' : 'bg-blue-600'}`}>
           <button
             onClick={onGoBack}
-            className="bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8"
+            className={`bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8`}
           >
             {t.back}
           </button>
@@ -31,10 +33,10 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
           </div>
         </div>
         {/* Body */}
-        <div className="space-y-6">
+  <div className="space-y-6">
           {/* Language */}
           <div
-            className="bg-white rounded-xl shadow p-5 cursor-pointer"
+            className={`${darkMode ? 'bg-gray-700 text-white' : 'bg-white'} rounded-xl shadow p-5 cursor-pointer`}
             onClick={onLanguageClick}
           >
             <div className="font-semibold text-lg mb-3">{t.language}</div>
@@ -43,7 +45,7 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
             </div>
           </div>
           {/* Notifications & Dark Mode */}
-          <div className="bg-white rounded-xl shadow p-5">
+          <div className={`${darkMode ? 'bg-gray-700 text-white' : 'bg-white'} rounded-xl shadow p-5`}>
             <div
               className="font-semibold text-lg mb-3 cursor-pointer"
               onClick={onNotificationsClick}
@@ -58,7 +60,7 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
             </div>
           </div>
           {/* About */}
-          <div className="bg-white rounded-xl shadow p-5">
+          <div className={`${darkMode ? 'bg-gray-700 text-white' : 'bg-white'} rounded-xl shadow p-5`}>
             <div className="font-semibold text-lg mb-3">{t.about}</div>
             <div className="mb-2">{t.privacy}</div>
             <div className="mb-2">{t.terms}</div>
@@ -71,14 +73,15 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
   );
 }
 
+
 // Language Screen
 function LanguageScreen({ onGoBack }) {
-  const { language, setLanguage } = useSettings();
+  const { language, setLanguage, darkMode } = useSettings();
   const t = translations[language];
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-md p-8">
-        <div className="flex items-center bg-blue-600 rounded-t-[2rem] px-8 py-4 mb-8 relative">
+    <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-200'}`}>
+      <div className={`rounded-[2rem] w-full max-w-2xl shadow-md p-8 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+  <div className={`flex items-center rounded-t-[2rem] px-8 py-4 mb-8 relative ${darkMode ? 'bg-blue-900' : 'bg-blue-600'}`}>
           <button
             onClick={onGoBack}
             className="bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8"
@@ -125,12 +128,12 @@ function LanguageScreen({ onGoBack }) {
 
 // Notifications Screen
 function NotificationsScreen({ onGoBack }) {
-  const { language } = useSettings();
+  const { language, darkMode } = useSettings();
   const t = translations[language];
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-md p-8">
-        <div className="flex items-center bg-blue-600 rounded-t-[2rem] px-8 py-4 mb-8 relative">
+    <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-200'}`}>
+      <div className={`rounded-[2rem] w-full max-w-2xl shadow-md p-8 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+  <div className={`flex items-center rounded-t-[2rem] px-8 py-4 mb-8 relative ${darkMode ? 'bg-blue-900' : 'bg-blue-600'}`}>
           <button
             onClick={onGoBack}
             className="bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8"

@@ -1,3 +1,4 @@
+"use client";
 import { useSettings } from "../components/SettingsContext";
 
 export default function ThemeWrapper({ children }) {

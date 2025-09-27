@@ -1,14 +1,17 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useSettings } from "../../components/SettingsContext";
+import translations from "../../components/translations";
 
 export default function SymptomChat() {
   const searchParams = useSearchParams();
   const symptoms = searchParams.get("symptoms");
   const notes = searchParams.get("notes");
+  const { language, darkMode } = useSettings();
+  const t = translations[language];
 
-  const [aiResponse, setAiResponse] = useState("Loading AI response...");
+  const [aiResponse, setAiResponse] = useState(language === "ls" ? "E jarolla karabo ea AI..." : "Loading AI response...");
 
   useEffect(() => {
     if (!symptoms && !notes) return;
@@ -28,27 +31,33 @@ export default function SymptomChat() {
         const data = await res.json();
 
         if (data.error) {
-          setAiResponse(`Error: ${data.error}`);
+          setAiResponse((language === "ls" ? "Phoso: " : "Error: ") + data.error);
         } else {
           setAiResponse(data.aiText);
         }
       } catch (err) {
-        setAiResponse(`Error: ${err.message}`);
+        setAiResponse((language === "ls" ? "Phoso: " : "Error: ") + err.message);
       }
     };
 
     fetchAIResponse();
-  }, [symptoms, notes]);
+  }, [symptoms, notes, language]);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-4">AI Symptom Analysis</h1>
-      <div className="w-full max-w-2xl bg-white p-6 rounded shadow">
-        <p className="mb-4"><strong>Symptoms:</strong> {symptoms}</p>
-        <p className="mb-4"><strong>Notes:</strong> {notes}</p>
-        <div className="mt-6 p-4 bg-gray-50 rounded border">
-          <h2 className="font-semibold mb-2">AI Response:</h2>
-          <p>{aiResponse}</p>
+    <div className={`min-h-screen flex flex-col items-center justify-center py-12 ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-100'}`}>
+      <div className={`rounded-2xl shadow-lg p-8 w-full max-w-2xl ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+        <h1 className="text-3xl font-bold mb-6 text-center" style={{ color: darkMode ? '#60a5fa' : '#2563eb' }}>{language === 'ls' ? 'Puisano le AI ka Matšoao' : 'AI Symptom Chat'}</h1>
+        <div className="mb-6">
+          <div className="font-semibold mb-2">{language === 'ls' ? 'Matšoao a hau:' : 'Your Symptoms:'}</div>
+          <div className="mb-2 text-gray-700">{symptoms || "-"}</div>
+          <div className="font-semibold mb-2">{language === 'ls' ? 'Lintlha tse ling:' : 'Additional Notes:'}</div>
+          <div className="mb-2 text-gray-700">{notes || "-"}</div>
+        </div>
+        <div className="mb-6">
+          <div className="font-semibold mb-2">{language === 'ls' ? 'Karabo ea AI:' : 'AI Response:'}</div>
+          <div className={`p-4 rounded min-h-[60px] ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-800'}`}>
+            {aiResponse}
+          </div>
         </div>
       </div>
     </div>
