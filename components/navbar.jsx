@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
-export default function Navbar() {
+export default function Navbar({ t, language }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef();
 
@@ -25,17 +25,17 @@ export default function Navbar() {
           onClick={toggleDropdown}
           className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-400"
         >
-          Menu ≡
+          {t?.menu || (language === 'ls' ? 'Lenane' : 'Menu')} ≡
         </button>
 
         {isOpen && (
           <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg">
             <ul>
               <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                <Link href="/settings">Settings</Link>
+                <Link href="/settings">{t?.settings || (language === 'ls' ? 'Litlhophiso' : 'Settings')}</Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                <Link href="/location">Location</Link>
+                <Link href="/location">{t?.location || (language === 'ls' ? 'Sebaka' : 'Location')}</Link>
               </li>
             </ul>
           </div>

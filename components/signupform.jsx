@@ -1,9 +1,5 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useSettings } from "./SettingsContext";
-import translations from "./translations";
 
+export default function SignupPage() {
   const { language } = useSettings();
   return (
     <div className="min-h-screen flex bg-gray-100">
@@ -47,12 +43,7 @@ import translations from "./translations";
           className="object-cover rounded-lg shadow-lg"
           priority
         />
-<<<<<<< HEAD
-        
-         {/* Already have account go to Login */}
-=======
         {/* Already have account → Login */}
->>>>>>> ae26eff6c8070fd38cd9b7e1a95a2484d5dfbe3e
         <p className="mt-6 text-sm text-gray-600">
           {language === "ls" ? "U se u ntse u e-na le ak'haonte?" : "Already have an account?"} {" "}
           <Link href="/login" className="text-blue-600 font-semibold hover:underline">
@@ -62,4 +53,5 @@ import translations from "./translations";
       </div>
     </div>
   );
+}
 

@@ -1,43 +1,22 @@
+"use client";
 import React, { useState } from "react";
 import { useSettings } from "../../components/SettingsContext";
 import translations from "../../components/translations";
+import Navbar from "../../components/navbar";
 
-// Dummy dropdown menu for demonstration. Mpho, please replace with actual dropdown in your app.
-function DropdownMenu({ onSettingsClick }) {
-  const { language } = useSettings();
-  const t = translations[language];
-  return (
-    <div className="relative inline-block text-left">
-      <button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700">
-        {t.menu}
-      </button>
-      <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-        <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-          {/* Other menu items */}
-          <button
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-            role="menuitem"
-            onClick={onSettingsClick}
-          >
-            {t.settings}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
-  const { language } = useSettings();
+  const { language, darkMode, toggleDarkMode } = useSettings();
   const t = translations[language];
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="bg-white rounded-[2rem] w-full max-w-3xl shadow-md p-8">
+    <div className={`min-h-screen flex flex-col items-center justify-center ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-200'}`}>
+      <Navbar />
+      <div className={`rounded-[2rem] w-full max-w-3xl shadow-md p-8 mt-8 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
         {/* Header */}
-        <div className="flex items-center bg-blue-600 rounded-t-[2rem] px-8 py-4 mb-8 relative">
+  <div className={`flex items-center rounded-t-[2rem] px-8 py-4 mb-8 relative ${darkMode ? 'bg-blue-900' : 'bg-blue-600'}`}>
           <button
             onClick={onGoBack}
-            className="bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8"
+            className={`bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8`}
           >
             {t.back}
           </button>
@@ -54,10 +33,10 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
           </div>
         </div>
         {/* Body */}
-        <div className="space-y-6">
+  <div className="space-y-6">
           {/* Language */}
           <div
-            className="bg-white rounded-xl shadow p-5 cursor-pointer"
+            className={`${darkMode ? 'bg-gray-700 text-white' : 'bg-white'} rounded-xl shadow p-5 cursor-pointer`}
             onClick={onLanguageClick}
           >
             <div className="font-semibold text-lg mb-3">{t.language}</div>
@@ -66,7 +45,7 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
             </div>
           </div>
           {/* Notifications & Dark Mode */}
-          <div className="bg-white rounded-xl shadow p-5">
+          <div className={`${darkMode ? 'bg-gray-700 text-white' : 'bg-white'} rounded-xl shadow p-5`}>
             <div
               className="font-semibold text-lg mb-3 cursor-pointer"
               onClick={onNotificationsClick}
@@ -75,13 +54,13 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
             </div>
             <div className="flex items-center justify-between">
               <span className="font-semibold">{t.darkMode}</span>
-              <button className="border px-4 py-1 rounded hover:bg-gray-100">
-                {t.toggle}
+              <button className="border px-4 py-1 rounded hover:bg-gray-100" onClick={toggleDarkMode}>
+                {darkMode ? t.on : t.off}
               </button>
             </div>
           </div>
           {/* About */}
-          <div className="bg-white rounded-xl shadow p-5">
+          <div className={`${darkMode ? 'bg-gray-700 text-white' : 'bg-white'} rounded-xl shadow p-5`}>
             <div className="font-semibold text-lg mb-3">{t.about}</div>
             <div className="mb-2">{t.privacy}</div>
             <div className="mb-2">{t.terms}</div>
@@ -94,14 +73,15 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
   );
 }
 
+
 // Language Screen
 function LanguageScreen({ onGoBack }) {
-  const { language, setLanguage } = useSettings();
+  const { language, setLanguage, darkMode } = useSettings();
   const t = translations[language];
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-md p-8">
-        <div className="flex items-center bg-blue-600 rounded-t-[2rem] px-8 py-4 mb-8 relative">
+    <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-200'}`}>
+      <div className={`rounded-[2rem] w-full max-w-2xl shadow-md p-8 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+  <div className={`flex items-center rounded-t-[2rem] px-8 py-4 mb-8 relative ${darkMode ? 'bg-blue-900' : 'bg-blue-600'}`}>
           <button
             onClick={onGoBack}
             className="bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8"
@@ -148,12 +128,12 @@ function LanguageScreen({ onGoBack }) {
 
 // Notifications Screen
 function NotificationsScreen({ onGoBack }) {
-  const { language } = useSettings();
+  const { language, darkMode } = useSettings();
   const t = translations[language];
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-md p-8">
-        <div className="flex items-center bg-blue-600 rounded-t-[2rem] px-8 py-4 mb-8 relative">
+    <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-200'}`}>
+      <div className={`rounded-[2rem] w-full max-w-2xl shadow-md p-8 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+  <div className={`flex items-center rounded-t-[2rem] px-8 py-4 mb-8 relative ${darkMode ? 'bg-blue-900' : 'bg-blue-600'}`}>
           <button
             onClick={onGoBack}
             className="bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8"
@@ -201,12 +181,10 @@ function NotificationsScreen({ onGoBack }) {
 }
 
 export default function App() {
-  const [view, setView] = useState("home"); // views: home, settings, language, notifications
+  const [view, setView] = useState("settings"); // default to settings for this page
 
   return (
     <div>
-      {/* Dropdown always visible for demo */}
-      <DropdownMenu onSettingsClick={() => setView("settings")} />
       {view === "settings" && (
         <Settings
           onGoBack={() => setView("home")}
@@ -220,7 +198,6 @@ export default function App() {
       {view === "notifications" && (
         <NotificationsScreen onGoBack={() => setView("settings")} />
       )}
-      {/* Add your other views (e.g., Home) as needed */}
     </div>
   );
 }

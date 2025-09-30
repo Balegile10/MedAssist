@@ -1,16 +1,13 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { jsPDF } from "jspdf"; // ✅ install with: npm install jspdf
-import { saveAs } from "file-saver"; // ✅ install with: npm install file-saver
 
 export default function SymptomChat() {
   const searchParams = useSearchParams();
   const symptoms = searchParams.get("symptoms");
-  const notes = searchParams.get("message"); 
+  const notes = searchParams.get("notes");
 
-  const [aiResponse, setAiResponse] = useState("Loading AI response...");
+  const [aiResponse, setAiResponse] = useState(language === "ls" ? "E jarolla karabo ea AI..." : "Loading AI response...");
 
   useEffect(() => {
     if (!symptoms && !notes) return;
@@ -39,69 +36,26 @@ export default function SymptomChat() {
         const data = await res.json();
 
         if (data.error) {
-          setAiResponse(`Error: ${data.error}`);
+          setAiResponse((language === "ls" ? "Phoso: " : "Error: ") + data.error);
         } else {
           setAiResponse(data.aiText);
         }
       } catch (err) {
-        setAiResponse(`Error: ${err.message}`);
+        setAiResponse((language === "ls" ? "Phoso: " : "Error: ") + err.message);
       }
     };
 
     fetchAIResponse();
   }, [symptoms, notes]);
 
-  // Download as Word (.docx)
-  const handleDownloadWord = () => {
-    const diagnosisText = `
-    === AI Medical Diagnosis Report ===
-    Symptoms: ${symptoms}
-    Notes: ${notes}
-
-    Doctor's Analysis:
-    ${aiResponse}
-    `;
-
-    const blob = new Blob([diagnosisText], {
-      type: "application/msword;charset=utf-8",
-    });
-    saveAs(blob, "diagnosis_report.docx");
-  };
-
-  // Download as PDF
-  const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(14);
-
-    doc.text("AI Medical Diagnosis Report", 10, 20);
-    doc.setFontSize(12);
-    doc.text(`Symptoms: ${symptoms || "N/A"}`, 10, 35);
-    doc.text(`Notes: ${notes || "N/A"}`, 10, 45);
-
-    const analysis = aiResponse || "No analysis available.";
-    const splitText = doc.splitTextToSize(analysis, 180);
-    doc.text("Doctor's Analysis:", 10, 60);
-    doc.text(splitText, 10, 70);
-
-    doc.save("diagnosis_report.pdf");
-  };
-
   return (
     <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4">AI Symptom Analysis</h1>
-      <div
-        id="diagnosis-section"
-        className="w-full max-w-2xl bg-white p-6 rounded shadow"
-      >
-        <p className="mb-4">
-          <strong>Symptoms:</strong> {symptoms}
-        </p>
-        <p className="mb-4">
-          <strong>Notes:</strong> {notes}
-        </p>
+      <div className="w-full max-w-2xl bg-white p-6 rounded shadow">
+        <p className="mb-4"><strong>Symptoms:</strong> {symptoms}</p>
+        <p className="mb-4"><strong>Notes:</strong> {notes}</p>
         <div className="mt-6 p-4 bg-gray-50 rounded border">
-          <h2 className="font-semibold mb-2">AI's Analysis:</h2>
+          <h2 className="font-semibold mb-2">AI Response:</h2>
           <p>{aiResponse}</p>
         </div>
       </div>
