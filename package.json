@@ -9,6 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@google/genai": "^1.21.0",
+    "file-saver": "^2.0.5",
+    "google-auth-library": "^10.3.0",
+    "jspdf": "^3.0.3",
     "mongodb": "^6.19.0",
     "next": "15.5.3",
     "postcss": "^8.5.6",

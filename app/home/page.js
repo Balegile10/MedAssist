@@ -51,7 +51,7 @@ export default function HomePage() {
             <span className="text-4xl mb-4">💬</span>
             <h3 className="mb-2 text-lg">AI Therapist</h3>
             <Link
-              href="/ai therapist"
+              href="/AItherapist"
               className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700"
             >
               Click here

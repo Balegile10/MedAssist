@@ -20,7 +20,7 @@ export default function SymptomChecker() {
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [userInput, setUserInput] = useState("");
 
-  // Toggle symptom selection
+
   const handleSymptomChange = (symptom) => {
     if (selectedSymptoms.includes(symptom)) {
       setSelectedSymptoms(selectedSymptoms.filter((s) => s !== symptom));
@@ -29,14 +29,14 @@ export default function SymptomChecker() {
     }
   };
 
-  // Navigate to chat page with selected symptoms and notes
+
   const handleSubmit = () => {
     if (selectedSymptoms.length === 0 && !userInput.trim()) {
       alert("Please select symptoms or type something!");
       return;
     }
 
-    // Encode query parameters to avoid URL issues
+    
     const query = new URLSearchParams({
       symptoms: selectedSymptoms.join(","),
       notes: userInput,
@@ -83,7 +83,7 @@ export default function SymptomChecker() {
           </ul>
         </div>
 
-        {/* Right: User Input */}
+      
         <div className="w-2/3 flex flex-col gap-4">
           <h2 className="text-xl font-semibold">Describe Your Symptoms</h2>
           <textarea
