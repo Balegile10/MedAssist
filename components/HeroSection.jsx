@@ -6,10 +6,10 @@ import { useSettings } from "./SettingsContext";
 import translations from "./translations";
 
 export default function HeroSection() {
-  const { language } = useSettings();
+  const { language, darkMode } = useSettings();
   const t = translations[language];
   return (
-    <section className="relative bg-white min-h-screen flex items-center justify-center">
+    <section className={`relative min-h-screen flex items-center justify-center ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
       <div className="relative z-10 text-center px-6 md:px-12 lg:px-24">
         <div className="flex justify-center mb-6">
           <Image
@@ -23,7 +23,7 @@ export default function HeroSection() {
         </div>
 
         <h1 className="text-4xl mb-4 font-extrabold text-blue-600">
-          Welcome to MedAssist
+          {t.welcome || (language === 'ls' ? 'Rea u amohela ho MedAssist' : 'Welcome to MedAssist')}
         </h1>
 
        {/* Get Started button → goes to signup */}
