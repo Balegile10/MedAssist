@@ -1,4 +1,5 @@
-export default function ClinicCard({ name, distance, phone, mapsUrl, isOpen }) {
+"use client"
+ export default function ClinicCard({ name, distance, phone, mapsUrl, isOpen }) {
   return (
     <div className="p-4 border rounded-lg shadow-sm flex justify-between items-center mb-4">
       <div>

@@ -42,6 +42,7 @@ export default function  ClinicCard(name, distamce, phone, mapUrl, isOpen) {
                                  className={`text-sm font-medium ${
                                  isOpen ? "text-green-600" : "text-red-600"
                                  }`}
+                                 
                                  >
                                  {isOpen ? "Open Now" : "Closed"}
                                </span>
