@@ -23,9 +23,11 @@ export default function HomePage() {
         {/* Right side - Menu & Logout */}
         <div className="flex items-center gap-4 flex-1 justify-end">
           <Navbar t={t} language={language} />
-          <button className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">
-            {t.logout || (language === 'ls' ? 'Tsoa' : 'Logout')}
-          </button>
+          <Link href="/signup">
+            <button className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">
+              {t.logout || (language === 'ls' ? 'Tsoaha' : 'Logout')}
+            </button>
+          </Link>
         </div>
       </header>
 
@@ -66,4 +68,3 @@ export default function HomePage() {
     </div>
   );
 }
-

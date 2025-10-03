@@ -1,25 +1,25 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import { useSettings } from "../../components/SettingsContext";
 import translations from "../../components/translations";
-import Navbar from "../../components/navbar";
-
 
 function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
   const { language, darkMode, toggleDarkMode } = useSettings();
   const t = translations[language];
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-200'}`}>
-      <Navbar />
+      
       <div className={`rounded-[2rem] w-full max-w-3xl shadow-md p-8 mt-8 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
         {/* Header */}
   <div className={`flex items-center rounded-t-[2rem] px-8 py-4 mb-8 relative ${darkMode ? 'bg-blue-900' : 'bg-blue-600'}`}>
-          <button
-            onClick={onGoBack}
-            className={`bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8`}
-          >
-            {t.back}
-          </button>
+          <Link href="/home">
+            <button
+              className={`bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8`}
+            >
+              {t.back}
+            </button>
+          </Link>
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <span className="flex items-center gap-2 text-white font-bold text-2xl">
               <svg className="w-7 h-7 mr-2" viewBox="0 0 24 24" fill="none">
