@@ -123,3 +123,17 @@ export default function LocationPage() {
     </div>
   );
 }
+const Header = () => (
+  <div className="flex items-center justify-between bg-blue-500 p-4">
+    <button
+      onClick={() => window.history.back()}
+      className="text-white bg-blue-900 px-3 py-1 rounded hover:bg-blue-800"
+    >
+      Back
+    </button>
+    <h1 className="text-white text-lg font-semibold flex items-center">
+      <MapPinIcon className="h-5 w-5 mr-2" />
+      Location Services
+    </h1>
+  </div>
+);

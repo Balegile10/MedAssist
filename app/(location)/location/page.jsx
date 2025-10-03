@@ -1,10 +1,11 @@
-"use client"
+"use client";
 
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { useSettings } from "../../../components/SettingsContext";
 import translations from "../../../components/translations";
+
 
 function ClinicCard({ name, distance, isOpen, mapsUrl }) {
   return (
@@ -50,6 +51,7 @@ export default function LocationPage() {
   const { language, darkMode } = useSettings();
   const t = translations[language];
 
+
   const [clinics, setClinics] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
 
@@ -61,7 +63,7 @@ export default function LocationPage() {
           setUserLocation({ latitude, longitude });
 
           const response = await fetch(
-            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&key=YOUR_API_KEY`
+            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&key=AIzaSyCqF7Luw4jxPj9Mzj-5PSZOenxr1r7m1ns`
           );
           const data = await response.json();
 
@@ -83,7 +85,24 @@ export default function LocationPage() {
     }
   }, []);
 
+
+  const Header = () => (
+  <div className="flex items-center justify-between bg-blue-500 p-4">
+    <button
+      onClick={() => window.history.back()}
+      className="text-white bg-blue-900 px-3 py-1 rounded hover:bg-blue-800"
+    >
+      Back
+    </button>
+    <h1 className="text-white text-lg font-semibold flex items-center">
+      <MapPinIcon className="h-5 w-5 mr-2" />
+      Location Services
+    </h1>
+  </div>
+);
+
   return (
+
     <div className={`min-h-screen p-6 ${darkMode ? "dark bg-gray-900 text-white" : "bg-gray-100"}`}>
       <div className={`max-w-4xl mx-auto rounded-xl shadow-md p-8 space-y-8 ${darkMode ? "bg-gray-800 text-white" : "bg-white"}`}>
         <h1 className={`text-2xl font-bold text-center ${darkMode ? "text-blue-300" : "text-blue-700"}`}>
