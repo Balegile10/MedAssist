@@ -57,8 +57,8 @@ export default function LoginPage() {
         <Image
           src="/login.png"
           alt="Medical Assistant"
-          width={600}
-          height={600}
+          width={725}
+          height={500}
           className="object-cover rounded-lg shadow-lg"
           priority
         />

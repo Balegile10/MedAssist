@@ -1,8 +1,13 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useSettings } from "../../components/SettingsContext";
+import translations from "../../components/translations";
 
 export default function SymptomChat() {
+  const { language } = useSettings();
+  const t = translations[language];
   const searchParams = useSearchParams();
   const symptoms = searchParams.get("symptoms");
   const notes = searchParams.get("notes");
@@ -47,6 +52,14 @@ export default function SymptomChat() {
 
     fetchAIResponse();
   }, [symptoms, notes]);
+
+  // Placeholder download handlers
+  const handleDownloadWord = () => {
+    alert("Download Word functionality not implemented yet.");
+  };
+  const handleDownloadPDF = () => {
+    alert("Download PDF functionality not implemented yet.");
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
