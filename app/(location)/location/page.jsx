@@ -2,9 +2,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSettings } from "../../components/SettingsContext";
-import translations from "../../components/translations";
+import { useSettings } from "../../../components/SettingsContext";
+import translations from "../../../components/translations";
 import { MapPinIcon } from '@heroicons/react/24/solid';
+// app/location/page.jsx
+import LocationMap from "@/components/LocationMap";
 
 
 function ClinicCard({ name, distance, isOpen, mapsUrl } ) {
@@ -86,7 +88,7 @@ export default function LocationPage() {
   }, []);
 
 
-  const Header = () => (
+  const Header = () => {(
   <div className="flex items-center justify-between bg-blue-500 p-4">
     <button
       onClick={() => window.history.back()}
@@ -101,6 +103,7 @@ export default function LocationPage() {
     </h1>
   </div>
 );
+}
 
   return (
 
