@@ -1,14 +1,15 @@
-"use client"
-
+"use client";
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSettings } from "../../../components/SettingsContext";
-import translations from "../../../components/translations";
+import { useSettings } from "../../components/SettingsContext";
+import translations from "../../components/translations";
+import { MapPinIcon } from '@heroicons/react/24/solid';
 
-function ClinicCard({ name, distance, isOpen, mapsUrl }) {
+
+function ClinicCard({ name, distance, isOpen, mapsUrl } ) {
   return (
-    <div className="p-4 border rounded-lg shadow-sm flex justify-between items-center mb-4">
+    <div className = "p-4 border rounded-lg shadow-sm flex justify-between items-center mb-4">
       <div>
         <h3 className="font-bold text-lg">{name}</h3>
         <p className="text-sm text-gray-600">{distance} km away</p>
@@ -50,6 +51,7 @@ export default function LocationPage() {
   const { language, darkMode } = useSettings();
   const t = translations[language];
 
+
   const [clinics, setClinics] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
 
@@ -61,7 +63,7 @@ export default function LocationPage() {
           setUserLocation({ latitude, longitude });
 
           const response = await fetch(
-            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&key=YOUR_API_KEY`
+            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&key=AIzaSyCqF7Luw4jxPj9Mzj-5PSZOenxr1r7m1ns`
           );
           const data = await response.json();
 
@@ -83,7 +85,25 @@ export default function LocationPage() {
     }
   }, []);
 
+
+  const Header = () => (
+  <div className="flex items-center justify-between bg-blue-500 p-4">
+    <button
+      onClick={() => window.history.back()}
+      aria-label="Go back"
+      className="text-white bg-blue-900 px-3 py-1 rounded hover:bg-blue-800"
+    >
+      Back
+    </button>
+    <h1 className="text-white text-lg font-semibold flex items-center">
+      <MapPinIcon className="h-5 w-5 mr-2"/>
+      Location Services
+    </h1>
+  </div>
+);
+
   return (
+
     <div className={`min-h-screen p-6 ${darkMode ? "dark bg-gray-900 text-white" : "bg-gray-100"}`}>
       <div className={`max-w-4xl mx-auto rounded-xl shadow-md p-8 space-y-8 ${darkMode ? "bg-gray-800 text-white" : "bg-white"}`}>
         <h1 className={`text-2xl font-bold text-center ${darkMode ? "text-blue-300" : "text-blue-700"}`}>
@@ -91,7 +111,7 @@ export default function LocationPage() {
         </h1>
 
         <div className="grid sm:grid-cols-2 gap-6">
-          <div className={`border p-4 rounded-lg space-y-2 ${darkMode ? "border-gray-600" : ""}`}>
+          <div className={`border p-4 rounded-lg space-y-2 ${darkMode ? "border-black-600" : ""}`}>
             <h2 className="text-lg font-semibold">{language === "ls" ? "Tšohanyetso" : "Emergency"}</h2>
             <button
               onClick={() => window.location.href = "tel:112"}
@@ -100,7 +120,7 @@ export default function LocationPage() {
               {language === "ls" ? "Letsetsa Ambulense" : "Call Ambulance"}
             </button>
           </div>
-          <div className={`border p-4 rounded-lg space-y-2 ${darkMode ? "border-gray-600" : ""}`}>
+          <div className={`border p-4 rounded-lg space-y-2 ${darkMode ? "border-black-600" : ""}`}>
             <h2 className="text-lg font-semibold">{language === "ls" ? "Fumana Sepetlele se Haufi" : "Find Nearest Clinic"}</h2>
             <button
               onClick={() => alert("Clinics are shown below")}
@@ -114,7 +134,7 @@ export default function LocationPage() {
         <div className="mt-8">
           <h2 className="text-xl font-bold mb-4">{language === "ls" ? "Litsebeletso tse Haufi" : "Nearest Clinics"}</h2>
           {clinics.length === 0 ? (
-            <p className="text-gray-500">Loading nearby clinics...</p>
+            <p className="text-black-500">Loading nearby clinics...</p>
           ) : (
             clinics.map((clinic, index) => (
               <ClinicCard key={index} {...clinic} />
