@@ -107,10 +107,17 @@ export default function SignupPage() {
       >
         <Image
           src="/login.png"
+<<<<<<< HEAD
           alt="MedAssist AI Support"
           width={550}
           height={550}
           className="rounded-2xl shadow-2xl object-cover hover:scale-105 transition-transform duration-700"
+=======
+          alt="Medical Assistant"
+          width={725}
+          height={500}
+          className="object-cover rounded-lg shadow-lg"
+>>>>>>> 7842da6466ab544afedd70d2d8e5946b8b66ff97
           priority
         />
       </motion.div>

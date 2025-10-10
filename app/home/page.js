@@ -55,9 +55,17 @@ export default function HomePage() {
         <h1 className="text-2xl font-bold text-center flex-1">MedAssist</h1>
         <div className="flex items-center gap-4 flex-1 justify-end">
           <Navbar t={t} language={language} />
+<<<<<<< HEAD
           <button className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
             {t.logout || (language === "ls" ? "Tsoa" : "Logout")}
           </button>
+=======
+          <Link href="/signup">
+            <button className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">
+              {t.logout || (language === 'ls' ? 'Tsoaha' : 'Logout')}
+            </button>
+          </Link>
+>>>>>>> 7842da6466ab544afedd70d2d8e5946b8b66ff97
         </div>
       </header>
 
@@ -139,4 +147,8 @@ export default function HomePage() {
       </footer>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7842da6466ab544afedd70d2d8e5946b8b66ff97

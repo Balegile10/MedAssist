@@ -99,7 +99,7 @@ const translations = {
     sesotho: "Sesotho",
   back: "Khutla",
   menu: "Lenane",
-  logout: "Tsoa",
+  logout: "Tsoaha",
   welcome: "Rea u amohela ho MedAssist",
   companion: "Motsoalle oa hau oa bophelo bo botle",
   clickHere: "Tobetsa Mona",

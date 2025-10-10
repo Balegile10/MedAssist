@@ -1,16 +1,22 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import { useSettings } from "../../components/SettingsContext";
 import translations from "../../components/translations";
+<<<<<<< HEAD
 import Navbar from "../../components/navbar";
 import { motion } from "framer-motion";
 
 // Main Settings Page
+=======
+
+>>>>>>> 7842da6466ab544afedd70d2d8e5946b8b66ff97
 function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
   const { language, darkMode, toggleDarkMode } = useSettings();
   const t = translations[language];
 
   return (
+<<<<<<< HEAD
     <div className={`min-h-screen flex flex-col ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100"}`}>
       <Navbar />
       <motion.div
@@ -29,6 +35,31 @@ function Settings({ onGoBack, onLanguageClick, onNotificationsClick }) {
           <h2 className="absolute inset-0 flex items-center justify-center font-bold text-2xl text-white pointer-events-none">
             {t.settings}
           </h2>
+=======
+    <div className={`min-h-screen flex flex-col items-center justify-center ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-200'}`}>
+      
+      <div className={`rounded-[2rem] w-full max-w-3xl shadow-md p-8 mt-8 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+        {/* Header */}
+  <div className={`flex items-center rounded-t-[2rem] px-8 py-4 mb-8 relative ${darkMode ? 'bg-blue-900' : 'bg-blue-600'}`}>
+          <Link href="/home">
+            <button
+              className={`bg-[#091C36] text-white text-lg px-6 py-2 rounded-full font-semibold mr-8`}
+            >
+              {t.back}
+            </button>
+          </Link>
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span className="flex items-center gap-2 text-white font-bold text-2xl">
+              <svg className="w-7 h-7 mr-2" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7ZM19.43 12.98c.04-.32.07-.65.07-.98s-.03-.66-.07-.98l2.11-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.6-.22l-2.49 1a7.12 7.12 0 0 0-1.7-.98l-.38-2.65A.486.486 0 0 0 14 2h-4a.5.5 0 0 0-.5.42l-.38 2.65a7.12 7.12 0 0 0-1.7.98l-2.49-1a.5.5 0 0 0-.6.22l-2 3.46a.5.5 0 0 0 .12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65a.5.5 0 0 0-.12.64l2 3.46a.5.5 0 0 0 .6.22l2.49-1c.52.38 1.08.71 1.7.98l.38 2.65c.05.26.26.42.5.42h4c.26 0 .46-.16.5-.42l.38-2.65a7.12 7.12 0 0 0 1.7-.98l2.49 1c.23.09.5 0 .6-.22l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.65Z"
+                  fill="currentColor"
+                />
+              </svg>
+              {t.settings}
+            </span>
+          </div>
+>>>>>>> 7842da6466ab544afedd70d2d8e5946b8b66ff97
         </div>
 
         {/* Body */}

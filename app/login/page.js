@@ -107,6 +107,7 @@ export default function LoginPage() {
       </motion.div>
 
       {/* Right side - Image */}
+<<<<<<< HEAD
       <motion.div
         initial={{ opacity: 0, x: 80 }}
         animate={{ opacity: 1, x: 0 }}
@@ -135,6 +136,18 @@ export default function LoginPage() {
           />
         </motion.div>
       </motion.div>
+=======
+      <div className="w-1/2 flex justify-center items-center">
+        <Image
+          src="/login.png"
+          alt="Medical Assistant"
+          width={725}
+          height={500}
+          className="object-cover rounded-lg shadow-lg"
+          priority
+        />
+      </div>
+>>>>>>> 7842da6466ab544afedd70d2d8e5946b8b66ff97
     </div>
   );
 }
