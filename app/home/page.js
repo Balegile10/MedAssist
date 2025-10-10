@@ -10,66 +10,73 @@ export default function HomePage() {
   const { language, darkMode } = useSettings();
   const t = translations[language];
 
-  // AI-generated daily affirmation
-  const [affirmation, setAffirmation] = useState("Loading affirmation...");
-
-  // Conversation history with AI therapist
+  const [affirmation, setAffirmation] = useState(t.loadingAffirmation || "Loading affirmation...");
   const [conversation, setConversation] = useState([
-    { role: "user", content: "Hello, I want to start my day positively." },
+    { role: "user", content: t.greeting || "Hello, I want to start my day positively." },
   ]);
 
-  
+  // Track selected mood
   const [mood, setMood] = useState(null);
-  const moods = [
-    { emoji: "😄", label: "Happy" },
-    { emoji: "🙂", label: "Calm" },
-    { emoji: "😐", label: "Okay" },
-    { emoji: "😔", label: "Sad" },
-    { emoji: "😣", label: "Stressed" },
+
+  // Define moods dynamically with translation keys
+  const getMoods = () => [
+    { emoji: "😄", key: "happy" },
+    { emoji: "🙂", key: "calm" },
+    { emoji: "😐", key: "okay" },
+    { emoji: "😔", key: "sad" },
+    { emoji: "😣", key: "stressed" },
   ];
 
+  const [moods, setMoods] = useState(getMoods());
 
+  // Update moods when language changes
+  useEffect(() => {
+    setMoods(getMoods());
+  }, [language]);
+
+  // Update selected mood label when language changes
+  const translatedMood = mood ? t[mood.toLowerCase()] || mood : "";
+
+  // Fetch daily affirmation
   useEffect(() => {
     const fetchAffirmation = async () => {
       try {
-        const res = await fetch("/api/daily-affirmation", {
+        const res = await fetch("/api/affirmation", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ conversation }),
+          body: JSON.stringify({ conversation, language }),
         });
         const data = await res.json();
-        setAffirmation(data.affirmation);
+        setAffirmation(data.affirmation || t.defaultAffirmation || (language === "ls" ? "U matla, u na le bokhoni, 'me u rata kajeno." : "You are strong, capable, and loved today."));
       } catch (err) {
         console.error(err);
-        setAffirmation("You are strong, capable, and loved today.");
+        setAffirmation(t.defaultAffirmation || (language === "ls" ? "U matla, u na le bokhoni, 'me u rata kajeno." : "You are strong, capable, and loved today."));
       }
     };
     fetchAffirmation();
-  }, [conversation]);
+  }, [conversation, language]);
 
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-800"}`}>
       
-      <header className="bg-blue-600 text-white py-5 px-8 flex items-center justify-between shadow-md">
+      {/* Header */}
+      <header className={`py-5 px-8 flex items-center justify-between shadow-md ${darkMode ? "bg-blue-900" : "bg-blue-600"}`}>
         <div className="flex-1"></div>
-        <h1 className="text-2xl font-bold text-center flex-1">MedAssist</h1>
+        <h1 className="text-2xl font-bold text-center flex-1 text-white">MedAssist</h1>
         <div className="flex items-center gap-4 flex-1 justify-end">
           <Navbar t={t} language={language} />
-<<<<<<< HEAD
-          <button className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
-            {t.logout || (language === "ls" ? "Tsoa" : "Logout")}
-          </button>
-=======
           <Link href="/signup">
-            <button className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">
-              {t.logout || (language === 'ls' ? 'Tsoaha' : 'Logout')}
+            <button
+              className={`px-4 py-2 rounded-lg font-semibold transition
+                ${darkMode ? "bg-black text-white hover:bg-gray-800" : "bg-white text-black hover:bg-gray-200"}`}
+            >
+              {t.logout || (language === "ls" ? 'Tsoaha' : 'Logout')}
             </button>
           </Link>
->>>>>>> 7842da6466ab544afedd70d2d8e5946b8b66ff97
         </div>
       </header>
 
-      
+      {/* Hero Section */}
       <section className={`py-16 px-6 ${darkMode ? "bg-gray-800" : "bg-blue-50"}`}>
         <div className="max-w-6xl mx-auto flex flex-col items-center text-center mb-12">
           <motion.h2
@@ -84,71 +91,88 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-gray-500 max-w-2xl text-lg"
+            className="text-gray-400 max-w-2xl text-lg"
           >
             {t.companion || (language === "ls" ? "Motsoalle oa hau oa bophelo bo botle" : "Your daily mental wellness companion")}
           </motion.p>
         </div>
 
-        
+        {/* Cards Section */}
         <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-        
+
+          {/* Daily Affirmation */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             className={`p-8 rounded-3xl shadow-xl ${darkMode ? "bg-gray-700" : "bg-white"} flex flex-col items-center text-center`}
           >
-          
-            <h3 className="text-2xl font-bold mb-2">Daily Affirmation</h3>
+            <h3 className="text-2xl font-bold mb-2">{t.dailyAffirmation || "Daily Affirmation"}</h3>
             <p className="text-gray-400 italic">{affirmation}</p>
           </motion.div>
 
-        
+          {/* AI Therapist */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             className={`p-8 rounded-3xl shadow-xl ${darkMode ? "bg-gray-700" : "bg-white"} flex flex-col items-center text-center`}
           >
-          
             <h3 className="text-2xl font-bold mb-2">{t.aiTherapist || "AI Therapist"}</h3>
-            <p className="text-gray-400 mb-4">Talk to our friendly AI therapist to express how you feel.</p>
+            <p className="text-gray-400 mb-4">{t.aiDescription || (language === "ls" ? "Buisana le moqoqi oa rona oa AI ho hlalosa hore na o ikutloa joang." : "Talk to our friendly AI therapist to express how you feel.")}</p>
             <Link
               href="/AItherapist"
               className="bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 transition"
             >
-              {t.start || "Start"}
+              {t.start || (language === "ls" ? "Qala" : "Start")}
             </Link>
           </motion.div>
 
-      
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className={`p-8 rounded-3xl shadow-xl ${darkMode ? "bg-gray-700" : "bg-white"} flex flex-col items-center text-center`}
-          >
-        
-            <h3 className="text-2xl font-bold mb-4">Mood Tracker</h3>
-            <div className="flex gap-4 justify-center flex-wrap mb-4">
-              {moods.map((m) => (
-                <button
-                  key={m.label}
-                  onClick={() => setMood(m.label)}
-                  className={`text-4xl transition-transform transform hover:scale-125 ${mood === m.label ? "opacity-100" : "opacity-60"}`}
-                >
-                  {m.emoji}
-                </button>
-              ))}
-            </div>
-            {mood && <p className="text-sm text-gray-400">You’re feeling <span className="font-semibold text-blue-500">{mood}</span> today 💙</p>}
-          </motion.div>
+          {/* Mood Tracker Section */}
+<motion.div
+  whileHover={{ scale: 1.05 }}
+  className={`p-8 rounded-3xl shadow-xl ${
+    darkMode ? "bg-gray-700" : "bg-white"
+  } flex flex-col items-center text-center`}
+>
+  <h3 className="text-2xl font-bold mb-4">
+    {t.moodTracker || (language === "ls" ? "Tatelamohaho ea Maikutlo" : "Mood Tracker")}
+  </h3>
+
+  <div className="flex gap-4 justify-center flex-wrap mb-4">
+    {[
+      { emoji: "😄", key: "happy" },
+      { emoji: "🙂", key: "calm" },
+      { emoji: "😐", key: "okay" },
+      { emoji: "😔", key: "sad" },
+      { emoji: "😣", key: "stressed" },
+    ].map((m) => (
+      <button
+        key={m.key}
+        onClick={() => setMood(m.key)}
+        className={`flex flex-col items-center transition-transform transform hover:scale-110 ${
+          mood === m.key ? "opacity-100" : "opacity-60"
+        }`}
+      >
+        <span className="text-4xl">{m.emoji}</span>
+        <span className="text-sm mt-1">{t[m.key] || m.key}</span>
+      </button>
+    ))}
+  </div>
+
+  {mood && (
+    <p className="text-sm text-gray-400">
+      {language === "ls"
+        ? `U ikutloa u le ${(t[mood] || mood)} kajeno 💙`
+        : `You’re feeling ${(t[mood] || mood)} today 💙`}
+    </p>
+  )}
+</motion.div>
+
+
         </div>
       </section>
 
-      
+      {/* Footer */}
       <footer className={`py-6 text-center text-sm ${darkMode ? "text-gray-500" : "text-gray-600"}`}>
-        © {new Date().getFullYear()} MedAssist Empowering Your Mental Wellness 
+        © {new Date().getFullYear()} MedAssist {t.footer || (language === "ls" ? "Ho matlafatsa bophelo ba hau ba kelello" : "Empowering Your Mental Wellness")}
       </footer>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 7842da6466ab544afedd70d2d8e5946b8b66ff97

@@ -107,36 +107,6 @@ export default function LoginPage() {
       </motion.div>
 
       {/* Right side - Image */}
-<<<<<<< HEAD
-      <motion.div
-        initial={{ opacity: 0, x: 80 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1 }}
-        className="w-full md:w-1/2 flex justify-center items-center p-10"
-      >
-        <motion.div
-          animate={{
-            y: [0, -10, 0],
-            boxShadow: [
-              "0px 0px 20px rgba(0, 255, 255, 0.4)",
-              "0px 0px 40px rgba(0, 255, 255, 0.7)",
-              "0px 0px 20px rgba(0, 255, 255, 0.4)",
-            ],
-          }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className="rounded-2xl overflow-hidden shadow-2xl"
-        >
-          <Image
-            src="/login.png"
-            alt="MedAssist AI Support"
-            width={550}
-            height={550}
-            className="rounded-2xl object-cover"
-            priority
-          />
-        </motion.div>
-      </motion.div>
-=======
       <div className="w-1/2 flex justify-center items-center">
         <Image
           src="/login.png"
@@ -147,7 +117,6 @@ export default function LoginPage() {
           priority
         />
       </div>
->>>>>>> 7842da6466ab544afedd70d2d8e5946b8b66ff97
     </div>
   );
 }
