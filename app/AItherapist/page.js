@@ -61,18 +61,26 @@ export default function AITherapist() {
     <div className={`flex flex-col h-screen ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}>
       
       {/* Header */}
-      <div className={`p-4 flex items-center ${darkMode ? "bg-blue-900" : "bg-blue-600"}`}>
+      <div
+        className={`relative p-4 flex items-center justify-center ${
+          darkMode ? "bg-blue-900" : "bg-blue-600"
+        }`}
+      >
+        {/* Back button on the left */}
         <button
           onClick={() => router.push("/home")}
-          className={`px-4 py-2 rounded-full mr-4 font-semibold transition 
+          className={`absolute left-4 px-4 py-2 rounded-full font-semibold transition 
             ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
         >
           {t.back || "Back"}
         </button>
+
+        {/* Centered title */}
         <h1 className="text-lg font-bold flex items-center gap-2 text-white">
           💬 {t.aiTherapist || "AI Therapist"}
         </h1>
       </div>
+
 
       {/* Chat Messages */}
       <div className={`flex-1 p-4 overflow-y-auto shadow-inner ${darkMode ? "bg-gray-800" : "bg-white"}`}>

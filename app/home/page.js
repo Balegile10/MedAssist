@@ -125,46 +125,45 @@ export default function HomePage() {
           </motion.div>
 
           {/* Mood Tracker Section */}
-<motion.div
-  whileHover={{ scale: 1.05 }}
-  className={`p-8 rounded-3xl shadow-xl ${
-    darkMode ? "bg-gray-700" : "bg-white"
-  } flex flex-col items-center text-center`}
->
-  <h3 className="text-2xl font-bold mb-4">
-    {t.moodTracker || (language === "ls" ? "Tatelamohaho ea Maikutlo" : "Mood Tracker")}
-  </h3>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className={`p-8 rounded-3xl shadow-xl ${
+              darkMode ? "bg-gray-700" : "bg-white"
+            } flex flex-col items-center text-center`}
+          >
+            <h3 className="text-2xl font-bold mb-4">
+              {t.moodTracker || (language === "ls" ? "Tatelamohaho ea Maikutlo" : "Mood Tracker")}
+            </h3>
 
-  <div className="flex gap-4 justify-center flex-wrap mb-4">
-    {[
-      { emoji: "😄", key: "happy" },
-      { emoji: "🙂", key: "calm" },
-      { emoji: "😐", key: "okay" },
-      { emoji: "😔", key: "sad" },
-      { emoji: "😣", key: "stressed" },
-    ].map((m) => (
-      <button
-        key={m.key}
-        onClick={() => setMood(m.key)}
-        className={`flex flex-col items-center transition-transform transform hover:scale-110 ${
-          mood === m.key ? "opacity-100" : "opacity-60"
-        }`}
-      >
-        <span className="text-4xl">{m.emoji}</span>
-        <span className="text-sm mt-1">{t[m.key] || m.key}</span>
-      </button>
-    ))}
-  </div>
+            <div className="flex gap-4 justify-center flex-wrap mb-4">
+              {[
+                { emoji: "😄", key: "happy" },
+                { emoji: "🙂", key: "calm" },
+                { emoji: "😐", key: "okay" },
+                { emoji: "😔", key: "sad" },
+                { emoji: "😣", key: "stressed" },
+              ].map((m) => (
+                <button
+                  key={m.key}
+                  onClick={() => setMood(m.key)}
+                  className={`flex flex-col items-center transition-transform transform hover:scale-110 ${
+                    mood === m.key ? "opacity-100" : "opacity-60"
+                  }`}
+                >
+                  <span className="text-4xl">{m.emoji}</span>
+                  <span className="text-sm mt-1">{t[m.key] || m.key}</span>
+                </button>
+              ))}
+            </div>
 
-  {mood && (
-    <p className="text-sm text-gray-400">
-      {language === "ls"
-        ? `U ikutloa u le ${(t[mood] || mood)} kajeno 💙`
-        : `You’re feeling ${(t[mood] || mood)} today 💙`}
-    </p>
-  )}
-</motion.div>
-
+            {mood && (
+              <p className="text-sm text-gray-400">
+                {language === "ls"
+                  ? `U ikutloa u le ${(t[mood] || mood)} kajeno 💙`
+                  : `You’re feeling ${(t[mood] || mood)} today 💙`}
+              </p>
+            )}
+          </motion.div>
 
         </div>
       </section>
