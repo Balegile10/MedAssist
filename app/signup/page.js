@@ -1,58 +1,119 @@
-
 "use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useSettings } from "../../components/SettingsContext";
 import translations from "../../components/translations";
 
 export default function SignupPage() {
   const { language, darkMode } = useSettings();
   const t = translations[language];
+
   return (
-    <div className={`min-h-screen flex ${darkMode ? "dark bg-gray-900 text-white" : "bg-gray-100"}`}>
-      {/* Left side of Sign Up Form */}
-      <div className="flex flex-col justify-center items-center w-1/2 p-8">
-  <form className={`p-8 rounded-lg shadow-md w-full max-w-md ${darkMode ? "bg-gray-800 text-white" : "bg-white"}`}> 
-          <h2 className="text-2xl font-bold text-blue-600 mb-6">{language === "ls" ? "Ngolisa" : t.signup || "Sign Up"}</h2>
-          <input
-            type="text"
-            placeholder={language === "ls" ? "Lebitso le felletseng" : t.fullName || "Full Name"}
-            className="w-full p-3 border rounded mb-4"
-          />
-          <input
-            type="email"
-            placeholder={language === "ls" ? "Imeile" : t.email || "Email"}
-            className="w-full p-3 border rounded mb-4"
-          />
-          <input
-            type="password"
-            placeholder={language === "ls" ? "Lentsoe la sephiri" : t.password || "Password"}
-            className="w-full p-3 border rounded mb-4"
-          />
-          <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+    <div
+      className={`min-h-screen flex flex-col md:flex-row ${
+        darkMode
+          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white"
+          : "bg-gradient-to-br from-blue-100 via-blue-200 to-cyan-200"
+      }`}
+    >
+      {/* Left side - Signup Form */}
+      <motion.div
+        initial={{ opacity: 0, x: -80 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+        className="flex flex-col justify-center items-center w-full md:w-1/2 p-8 md:p-16"
+      >
+        <motion.form
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+          className={`p-10 rounded-2xl shadow-xl w-full max-w-md backdrop-blur-md ${
+            darkMode
+              ? "bg-gray-800/60 text-white border border-gray-700"
+              : "bg-white/80 border border-blue-200"
+          }`}
+        >
+          <h2 className="text-3xl font-extrabold text-center text-blue-600 mb-8 drop-shadow-md">
+            {language === "ls" ? "Ngolisa" : t.signup || "Create Your Account"}
+          </h2>
+
+          <div className="space-y-5">
+            <input
+              type="text"
+              placeholder={
+                language === "ls"
+                  ? "Lebitso le felletseng"
+                  : t.fullName || "Full Name"
+              }
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none transition"
+            />
+            <input
+              type="email"
+              placeholder={
+                language === "ls" ? "Imeile" : t.email || "Email Address"
+              }
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none transition"
+            />
+            <input
+              type="password"
+              placeholder={
+                language === "ls"
+                  ? "Lentsoe la sephiri"
+                  : t.password || "Password"
+              }
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none transition"
+            />
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="w-full mt-8 bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-lg font-bold shadow-lg hover:shadow-blue-500/40 transition"
+          >
             {language === "ls" ? "Ngolisa" : t.signup || "Sign Up"}
-          </button>
-          <p className="mt-4 text-sm text-center">
-            {language === "ls" ? "U se u ntse u e-na le ak'haonte?" : t.alreadyAccount || "Already have an account?"} {" "}
-            <Link href="/login" className="text-blue-600">
+          </motion.button>
+
+          <p className="mt-6 text-sm text-center">
+            {language === "ls"
+              ? "U se u ntse u e-na le ak'haonte?"
+              : t.alreadyAccount || "Already have an account?"}{" "}
+            <Link
+              href="/login"
+              className="text-blue-600 font-semibold hover:underline"
+            >
               {language === "ls" ? "Kena" : t.login || "Login"}
             </Link>
           </p>
-        </form>
-      </div>
+        </motion.form>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.6 }}
+          transition={{ delay: 1.2 }}
+          className="mt-8 text-xs text-gray-400"
+        >
+          © 2025 MedAssist. Your health, our priority.
+        </motion.div>
+      </motion.div>
 
       {/* Right side - Image */}
-      <div className="w-1/2 flex justify-center items-center">
+      <motion.div
+        initial={{ opacity: 0, x: 80 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+        className="w-full md:w-1/2 flex justify-center items-center p-10"
+      >
         <Image
           src="/login.png"
-          alt="Medical Assistant"
-          width={600}
-          height={600}
-          className="object-cover rounded-lg shadow-lg"
+          alt="MedAssist AI Support"
+          width={550}
+          height={550}
+          className="rounded-2xl shadow-2xl object-cover hover:scale-105 transition-transform duration-700"
           priority
         />
-      </div>
+      </motion.div>
     </div>
   );
 }

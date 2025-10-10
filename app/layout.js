@@ -1,4 +1,3 @@
-
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SettingsProvider } from "../components/SettingsContext";
@@ -32,4 +31,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-

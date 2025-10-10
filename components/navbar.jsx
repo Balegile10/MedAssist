@@ -32,7 +32,7 @@ export default function Navbar({ t, language }) {
           <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg">
             <ul>
               <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                <Link href="/settings">{t?.settings || (language === 'ls' ? 'Litlhophiso' : 'Settings')}</Link>
+                <Link href="/Settings">{t?.settings || (language === 'ls' ? 'Litlhophiso' : 'Settings')}</Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
                 <Link href="/location">{t?.location || (language === 'ls' ? 'Sebaka' : 'Location')}</Link>
@@ -44,4 +44,3 @@ export default function Navbar({ t, language }) {
     </nav>
   );
 }
-

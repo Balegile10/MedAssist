@@ -1,85 +1,108 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useSettings } from "../../components/SettingsContext";
+import { motion } from "framer-motion";
 
-export default function AItherapistChat() {
-  const [messages, setMessages] = useState([
-    { sender: "ai", text: "Hello, I’m your AI therapist. How are you feeling today?" },
-  ]);
-  const [input, setInput] = useState("");
+export default function AITherapist() {
+  const searchParams = useSearchParams();
+  const initialMessage = searchParams.get("message") || "";
+  const { language, darkMode } = useSettings();
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
+  const [userMessage, setUserMessage] = useState(initialMessage);
+  const [conversation, setConversation] = useState([]);
+  const [aiResponse, setAiResponse] = useState(
+    language === "ls" ? "AI e ntse e ngola karabo ea hau..." : "AI is generating a response..."
+  );
+  const [loading, setLoading] = useState(false);
 
-
-    const newMessages = [...messages, { sender: "user", text: input }];
-    setMessages(newMessages);
-    setInput("");
+  const fetchAIResponse = async (message) => {
+    if (!message) return;
+    setLoading(true);
 
     try {
       const res = await fetch("/api/gemini-chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({
+          message: `
+            You are a professional therapist. Respond empathetically, professionally, and thoughtfully to the user's concerns. 
+            Make your response clear, supportive, and easy to understand. 
+            Encourage reflection, emotional well-being, and constructive coping strategies. 
+            Keep the response concise but meaningful.
+            ${language === "ls" ? "Respond in Sesotho." : "Respond in English."}
+
+            User's message: ${message}
+          `,
+        }),
       });
 
       const data = await res.json();
-
       if (data.error) {
-        setMessages([...newMessages, { sender: "ai", text: `Error: ${data.error}` }]);
+        setAiResponse((language === "ls" ? "Phoso: " : "Error: ") + data.error);
       } else {
-        setMessages([...newMessages, { sender: "ai", text: data.aiText }]);
+        setAiResponse(data.aiText);
+        setConversation((prev) => [...prev, { role: "user", content: message }, { role: "ai", content: data.aiText }]);
       }
     } catch (err) {
-      setMessages([...newMessages, { sender: "ai", text: `Error: ${err.message}` }]);
+      setAiResponse((language === "ls" ? "Phoso: " : "Error: ") + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleSend = () => {
+    if (!userMessage.trim()) return;
+    fetchAIResponse(userMessage);
+    setUserMessage("");
+  };
+
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 p-6">
-      {/* Top Bar */}
-      <div className="w-full max-w-2xl bg-blue-600 text-white py-3 px-4 flex items-center justify-between rounded-t-lg">
-        <button
-          className="text-white font-bold"
-          onClick={() => (window.location.href = "/")}
-        >
-          Back
-        </button>
-        <h1 className="text-lg font-semibold">AI Therapist</h1>
-        <div></div>
-      </div>
+    <div className={`min-h-screen p-6 flex flex-col items-center ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100"}`}>
+      <motion.h1
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-3xl font-bold mb-6"
+      >
+        {language === "ls" ? "Therapist ea AI" : "AI Therapist"}
+      </motion.h1>
 
-      {/* Chat Box */}
-      <div className="w-full max-w-2xl bg-white flex-1 overflow-y-auto p-4 border-x border-b rounded-b-lg">
-        {messages.map((msg, i) => (
-          <div
+      <div className={`w-full max-w-3xl flex flex-col gap-4`}>
+        {conversation.map((msg, i) => (
+          <motion.div
             key={i}
-            className={`mb-3 p-3 rounded-lg max-w-xs ${
-              msg.sender === "user"
-                ? "ml-auto bg-blue-500 text-white"
-                : "mr-auto bg-gray-200 text-gray-800"
-            }`}
+            initial={{ opacity: 0, x: msg.role === "ai" ? -20 : 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className={`p-4 rounded-lg shadow-md ${msg.role === "ai" ? (darkMode ? "bg-blue-700 text-white" : "bg-blue-100 text-gray-800") : (darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800")}`}
           >
-            {msg.text}
-          </div>
+            <strong>{msg.role === "ai" ? (language === "ls" ? "AI:" : "Therapist:") : (language === "ls" ? "U:" : "You:")}</strong> {msg.content}
+          </motion.div>
         ))}
+
+        {loading && (
+          <div className={`p-4 rounded-lg ${darkMode ? "bg-gray-700 text-white" : "bg-gray-100"}`}>
+            {language === "ls" ? "AI e ntse e ngola karabo..." : "AI is generating a response..."}
+          </div>
+        )}
       </div>
 
-      {/* Input Box */}
-      <div className="w-full max-w-2xl flex mt-3">
+      {/* Input section */}
+      <div className="mt-6 flex w-full max-w-3xl gap-2">
         <input
           type="text"
-          className="flex-1 border rounded-l-lg p-3 focus:outline-none"
-          placeholder="Type your message..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          value={userMessage}
+          onChange={(e) => setUserMessage(e.target.value)}
+          placeholder={language === "ls" ? "Ngola molaetsa oa hau mona..." : "Type your message here..."}
+          className={`flex-1 px-4 py-2 rounded-lg shadow focus:outline-none ${
+            darkMode ? "bg-gray-800 text-white placeholder-gray-400" : "bg-white text-gray-800 placeholder-gray-500"
+          }`}
         />
         <button
-          onClick={sendMessage}
-          className="bg-blue-600 text-white px-5 rounded-r-lg font-semibold"
+          onClick={handleSend}
+          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-semibold"
         >
-          Send
+          {language === "ls" ? "Romela" : "Send"}
         </button>
       </div>
     </div>

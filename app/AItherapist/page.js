@@ -1,99 +1,103 @@
 "use client";
-import React, { useState } from "react";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function AITherapistPage() {
+export default function AITherapist() {
   const [messages, setMessages] = useState([
-    { from: "bot", text: "How are you feeling today?" },
+    { sender: "ai", text: "How are you feeling today?" }
   ]);
-  const [input, setInput] = useState("");
+  const [userInput, setUserInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSend = async () => {
-    if (!input.trim()) return;
+    if (!userInput.trim()) return;
 
-  
-    const newMessages = [...messages, { from: "user", text: input }];
+    
+    const newMessages = [...messages, { sender: "user", text: userInput }];
     setMessages(newMessages);
+    setUserInput("");
+    setLoading(true);
 
     try {
       const res = await fetch("/api/gemini-chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: `You are a compassionate AI therapist. 
-- Always respond with empathy, understanding, and encouragement. 
-- If the user expresses distress, thoughts of self-harm, abuse, or any dangerous situation, refer them to professional resources in Lesotho.
-- Examples: 
-   * "If you are in immediate danger, please contact the Lesotho Mounted Police Service at 123."
-   * "You can also reach out to Queen 'Mamohato Memorial Hospital or your nearest clinic for support."
-   * "For emergencies, dial 112 for an ambulance."
-- Otherwise, continue as a supportive therapist.
-The user just said: "${input}". 
-Offer supportive reflections and gentle guidance.`,
-
-        }),
+        body: JSON.stringify({ message: userInput }),
       });
 
       const data = await res.json();
+      console.log("API Response:", data); 
 
-  
+      if (data.reply) {
+        setMessages((prev) => [...prev, { sender: "ai", text: data.reply }]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { sender: "ai", text: "⚠️ Sorry, I couldn’t generate a response." },
+        ]);
+      }
+    } catch (error) {
+      console.error("Frontend Error:", error);
       setMessages((prev) => [
         ...prev,
-        { from: "bot", text: data.reply || data.aiText || "I'm here with you. Tell me more." },
+        { sender: "ai", text: "Error: Something went wrong." },
       ]);
-    } catch (err) {
-      setMessages((prev) => [
-        ...prev,
-        { from: "bot", text: "Something went wrong. Please try again." },
-      ]);
+    } finally {
+      setLoading(false);
     }
-
-    setInput("");
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
-      {/* Top bar */}
-      <div className="flex items-center justify-between bg-blue-600 p-4">
+    <div className="flex flex-col h-screen bg-gray-100">
+      
+      <div className="bg-blue-600 text-white p-4 flex items-center">
         <button
-          className="bg-black text-white px-4 py-2 rounded"
           onClick={() => router.push("/")}
+          className="bg-black text-white px-4 py-2 rounded-lg mr-4"
         >
           Back
         </button>
-        <h1 className="text-white font-bold text-lg">AI Therapist</h1>
-        <div className="w-16" /> {/* spacer */}
+        <h1 className="text-lg font-bold">💬 AI Therapist</h1>
       </div>
 
-    
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((msg, idx) => (
+      
+      <div className="flex-1 p-4 overflow-y-auto bg-white shadow-inner">
+        {messages.map((msg, index) => (
           <div
-            key={idx}
-            className={`p-3 rounded-lg max-w-xs ${
-              msg.from === "user"
-                ? "bg-blue-500 text-white self-end ml-auto"
-                : "bg-gray-200 text-black"
+            key={index}
+            className={`my-2 p-3 rounded-xl shadow-sm max-w-xs ${
+              msg.sender === "ai"
+                ? "bg-gray-200 text-left"
+                : "bg-blue-500 text-white ml-auto"
             }`}
           >
             {msg.text}
           </div>
         ))}
+
+        {loading && (
+          <div className="my-2 p-3 rounded-xl shadow-sm max-w-xs bg-gray-200 text-left">
+            Typing...
+          </div>
+        )}
       </div>
 
-    
-      <div className="flex items-center p-4 bg-white border-t">
+      
+      <div className="p-4 bg-gray-200 flex">
         <input
           type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
-          className="flex-1 border rounded-lg p-2 mr-2"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          placeholder="Type your message here..."
+          className="flex-1 p-2 rounded-lg border border-gray-300"
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
         <button
           onClick={handleSend}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+          disabled={loading}
+          className="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg"
         >
           Send
         </button>

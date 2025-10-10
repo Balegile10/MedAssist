@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {GoogleGenAI} from '@google/genai';
+import { GoogleGenAI } from "@google/genai";
 
 export async function POST(req) {
   try {
@@ -12,26 +12,34 @@ export async function POST(req) {
       );
     }
 
-    // Make sure to include the following import:
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "API key not set in environment variables" },
+        { status: 500 }
+      );
+    }
 
-    const apiKey = process.env.GEMINI_API_KEY
-    
-    console.log("api key: ", apiKey)
-
-    const ai = new GoogleGenAI({apiKey: apiKey});
+    const ai = new GoogleGenAI({ apiKey });
 
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
-      contents: message,
-    })
-    console.log(response.text);
-    const aiText = response.text;
+      contents: [
+        {
+          type: "text",
+          text: `You are a professional therapist. Respond empathetically, professionally, and thoughtfully. 
+          Make your response clear, supportive, and easy to understand. Encourage reflection and emotional well being. 
+          ${message}`,
+        },
+      ],
+    });
 
-    return NextResponse.json({ aiText });
+
+    return NextResponse.json({ response });
   } catch (error) {
     console.error("Server error:", error);
     return NextResponse.json(
-      { error: error.message + "something" || "Something went wrong" },
+      { error: error.message || "Something went wrong" },
       { status: 500 }
     );
   }
